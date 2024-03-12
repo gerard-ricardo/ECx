@@ -49,8 +49,8 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     eta <- VGAM::logitlink(inhib)
     ECx <- (eta - beta[1]) / beta[2]
     pd <- -cbind(1, ECx) / beta[2]
-    ff <- as.matrix(vcov(model)[1:2, 1:2])
-    se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
+    vc <- as.matrix(vcov(model)[1:2, 1:2])
+    se <- sqrt(((pd %*% vc) * pd) %*% c(1, 1))
     upper <- (ECx + se * 1.96)
     lower <- (ECx - se * 1.96)
     sum <- data.frame(ECx, lower, upper)
@@ -59,8 +59,8 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     eta <- inhib
     ECx <- (eta - beta[1]) / beta[2]
     pd <- -cbind(1, ECx) / beta[2]
-    ff <- as.matrix(vcov(model)[1:2, 1:2])
-    se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
+    vc <- as.matrix(vcov(model)[1:2, 1:2])
+    se <- sqrt(((pd %*% vc) * pd) %*% c(1, 1))
     upper <- (ECx + se * 1.96)
     lower <- (ECx - se * 1.96)
     sum <- data.frame(ECx, lower, upper)
@@ -69,8 +69,8 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     eta <- VGAM::logitlink(inhib)
     ECx <- (eta - beta[1]) / beta[2]
     pd <- -cbind(1, ECx) / beta[2]
-    ff <- vcov(model)$cond[1:2, 1:2]
-    se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
+    vc <- vcov(model)$cond[1:2, 1:2]
+    se <- sqrt(((pd %*% vc) * pd) %*% c(1, 1))
     upper <- (ECx + se * 1.96)
     lower <- (ECx - se * 1.96)
     sum <- data.frame(ECx, lower, upper)
@@ -79,8 +79,8 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     eta <- inhib
     ECx <- (eta - beta[1]) / beta[2]
     pd <- -cbind(1, ECx) / beta[2]
-    ff <- vcov(model)$cond[1:2, 1:2]
-    se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
+    vc <- vcov(model)$cond[1:2, 1:2]
+    se <- sqrt(((pd %*% vc) * pd) %*% c(1, 1))
     upper <- (ECx + se * 1.96)
     lower <- (ECx - se * 1.96)
     sum <- data.frame(ECx, lower, upper)
@@ -89,8 +89,8 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     eta <- VGAM::logitlink(inhib)
     ECx <- (eta - beta[1]) / beta[2]
     pd <- -cbind(1, ECx) / beta[2]
-    ff <- vcov(model)[1:2, 1:2]
-    se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
+    vc <- vcov(model)[1:2, 1:2]
+    se <- sqrt(((pd %*% vc) * pd) %*% c(1, 1))
     upper <- (ECx + se * 1.96)
     lower <- (ECx - se * 1.96)
     sum <- data.frame(ECx, lower, upper)
@@ -99,8 +99,8 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     eta <- inhib
     ECx <- (eta - beta[1]) / beta[2]
     pd <- -cbind(1, ECx) / beta[2]
-    ff <- vcov(model)[1:2, 1:2]
-    se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
+    vc <- vcov(model)[1:2, 1:2]
+    se <- sqrt(((pd %*% vc) * pd) %*% c(1, 1))
     upper <- (ECx + se * 1.96)
     lower <- (ECx - se * 1.96)
     sum <- data.frame(ECx, lower, upper)
