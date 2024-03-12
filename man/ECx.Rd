@@ -4,19 +4,25 @@
 \alias{ECx}
 \title{Calculate ECx}
 \usage{
-ECx(x, y)
+ECx(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
 }
 \arguments{
-\item{model}{A model object, typically from \code{glm}, for which the ECx will
-be calculated.}
+\item{model}{A model object, typically from \code{glm} or \code{glmer} from the \code{lme4} package.}
+
+\item{x}{The percentage effect to calculate the ECx at (default is 50).}
+
+\item{type}{The type of ECx calculation: 'from_top' (default), or 'from_top_bot'.}
 }
 \value{
-The calculated ECx value.
+A data frame with ECx, lower, and upper confidence limits.
 }
 \description{
-Description of what ECx calculation does, including any important details
-users should know.
+Calculates an ECx from a glm or glmm (lme4). This function allows users to calculate
+ECx values using either the top of the response curve or between the top and bottom
+of the response curve.
 }
 \examples{
-# Here, you could include a simple example of how to use the ECx function.
+# Ensure you have the 'hav4' dataset available before running this example
+# md1 <- glm(cbind(suc,(tot - suc)) ~ raw_x, family = binomial, data = hav4)
+# ECx(model = md1, x = 50)
 }
