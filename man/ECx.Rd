@@ -4,16 +4,21 @@
 \alias{ECx}
 \title{Calculate ECx}
 \usage{
-ECx(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
+ECx(
+  model,
+  x = 50,
+  type = c("from_top", "from_top_bot", "absolute", "from_bot", "from_bot_top")
+)
 }
 \arguments{
 \item{model}{A model object, typically from \code{glm} or \code{glmer} from the \code{lme4} package, or \code{glmmTMB}.}
 
 \item{x}{The percentage effect to calculate the ECx at (default is 50).}
 
-\item{type}{The type of ECx calculation: 'from_top' (default), or 'from_top_bot' or 'absolute'. 'from_top' calculates the ECx from
-the maximum of the model prediction to zero, 'from_top_bot' between the range of the maximum and minimum of the model prediction, and 'absolute'
-is used to directly calculate the ECx at an absolute value.Which is most appropriate depends on the specific research question}
+\item{type}{The type of ECx calculation: 'from_top' (default), 'from_top_bot', 'absolute', 'from_bot', or 'from_bot_top'. 'from_top' calculates the ECx from
+the maximum of the model prediction to zero; 'from_top_bot' between the range of the maximum and minimum of the model prediction; 'absolute'
+is used to directly calculate the ECx at an absolute value. Suitable for increasing trends, 'from_bot' calculate from the bottom; and 'from_bot_top' calculates from the bottom to the top.
+Which is most appropriate depends on the specific research question}
 }
 \value{
 A data frame with ECx, lower, and upper confidence limits.

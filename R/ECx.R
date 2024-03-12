@@ -6,9 +6,10 @@
 #'
 #' @param model A model object, typically from `glm` or `glmer` from the `lme4` package, or `glmmTMB`.
 #' @param x The percentage effect to calculate the ECx at (default is 50).
-#' @param type The type of ECx calculation: 'from_top' (default), or 'from_top_bot' or 'absolute'. 'from_top' calculates the ECx from
-#' the maximum of the model prediction to zero, 'from_top_bot' between the range of the maximum and minimum of the model prediction, and 'absolute'
-#' is used to directly calculate the ECx at an absolute value.Which is most appropriate depends on the specific research question
+#' @param type The type of ECx calculation: 'from_top' (default), 'from_top_bot', 'absolute', 'from_bot', or 'from_bot_top'. 'from_top' calculates the ECx from
+#' the maximum of the model prediction to zero; 'from_top_bot' between the range of the maximum and minimum of the model prediction; 'absolute'
+#' is used to directly calculate the ECx at an absolute value. Suitable for increasing trends, 'from_bot' calculate from the bottom; and 'from_bot_top' calculates from the bottom to the top.
+#' Which is most appropriate depends on the specific research question
 #' @return A data frame with ECx, lower, and upper confidence limits.
 #' @importFrom lme4 fixef
 #' @importFrom VGAM logitlink
@@ -24,7 +25,7 @@
 #' md1 <- glm(cbind(suc,(tot - suc)) ~ raw_x, family = binomial, data = data1)
 #' ECx(model = md1, x = 50, type = "from_top")
 #'
-ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute")) {
+ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute", 'from_bot','from_bot_top')) {
   # Extract model family as a string
 
 
@@ -36,10 +37,13 @@ ECx <- function(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
     inhib <- max(pred_probs) - ((x / 100) * max(pred_probs))
   } else if (type == "from_top_bot") {
     range_val <- max(pred_probs) - min(pred_probs)
-    target_val <- min(pred_probs) + (range_val * (x / 100))
-    inhib <- target_val
+    inhib <- min(pred_probs) + (range_val * (x / 100))
   } else if (type == "absolute") {
     inhib <- x / 100
+  }else if (type == "from_bot") {
+    inhib <-  (1 - min(pred_probs) * (x / 100)) + min(pred_probs)
+  }else if (type == "from_bot_top") {
+    inhib <-  (max(pred_probs) - min(pred_probs) * (x / 100)) + min(pred_probs)
   }
 
   # Check model package and family
