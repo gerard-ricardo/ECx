@@ -1,10 +1,10 @@
 Package: ECx
-Title: What the Package Does (One Line, Title Case)
+Title: ECx
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Gerard", "Ricardo", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Description: Provides tools for calculating Effective Concentration (ECx) values from both generalized linear models (GLM) and generalized linear mixed models (GLMM) using packages 'lme4' and 'glmmTMB'. It supports multiple calculation methods, including 'from_top' and 'from_top_bot', to accommodate different types of dose-response data analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -12,3 +12,8 @@ RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Imports:
+    VGAM,
+    glmmTMB,
+    lme4
+

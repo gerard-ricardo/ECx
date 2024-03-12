@@ -1,26 +1,42 @@
 #' Calculate ECx
 #'
-#' Calculates an ECx from a glm or glmm (lme4). This function allows users to calculate
+#' Calculates an ECx from a GLM or GLMM (lme4) or GLMM (glmmTMB). This function allows users to calculate
 #' ECx values using either the top of the response curve or between the top and bottom
 #' of the response curve.
 #'
-#' @param model A model object, typically from `glm` or `glmer` from the `lme4` package.
+#' @param model A model object, typically from `glm` or `glmer` from the `lme4` package, or `glmmTMB`.
 #' @param x The percentage effect to calculate the ECx at (default is 50).
-#' @param type The type of ECx calculation: 'from_top' (default), or 'from_top_bot'.
+#' @param type The type of ECx calculation: 'from_top' (default), or 'from_top_bot' or 'absolute'. 'from_top' calculates the ECx from
+#' the maximum of the model prediction, 'from_top_bot' between the range of the maximum and minimum of the model prediction, and 'absolute'
+#' is used to directly calculate the ECx at an absolute value.
 #' @return A data frame with ECx, lower, and upper confidence limits.
+#' @importFrom lme4 fixef
+#' @importFrom VGAM logitlink
+#' @importFrom glmmTMB fixef
+#' @importFrom stats vcov coef predict
 #' @export
 #' @examples
-#' # Ensure you have the 'hav4' dataset available before running this example
-#' # md1 <- glm(cbind(suc,(tot - suc)) ~ raw_x, family = binomial, data = hav4)
-#' # ECx(model = md1, x = 50)
+#' set.seed(123)
+#'raw_x <- sort(rep(seq(from = 0.1, to = 100, by = 10), 4))
+#'suc <- rbinom(n = length(raw_x), size = 100, prob = raw_x/100)
+#'tot <- rep(100, length(raw_x))
+#'data1 <- data.frame(raw_x, suc, tot)
+#'md1 <- glm(cbind(suc, (tot - suc)) ~ raw_x, family = binomial, data = data1)
+#'ECx(model = md1, x = 50)
+#'
 ECx <- function(model, x = 50, type = c('from_top', 'from_top_bot', 'absolute')) {
   type <- match.arg(type)
 
-  # Check if the model is a GLMM from lme4
+  # Check if the model is a GLMM from lme4 or glmmTMB
   if("glmerMod" %in% class(model)) {
-    beta <- fixef(model)  # For GLMMs, use fixef() to get fixed effects
+    beta <- fixef(model)  # For lme4 GLMMs, use fixef() to get fixed effects
+    ff <- as.matrix(vcov(model)[1:2, 1:2])
+  } else if ("glmmTMB" %in% class(model)) {
+    beta <- fixef(model)$cond  # For glmmTMB, use fixef(model)$cond
+    ff <- as.matrix(vcov(model)$cond[1:2, 1:2])
   } else {
-    beta <- coef(model)  # For GLMs, use coef()
+    beta <- coef(model)  # For GLMs and other models, use coef()
+    ff <- as.matrix(vcov(model)[1:2, 1:2])
   }
 
   pred_probs <- predict(model, type = "response")
@@ -39,7 +55,7 @@ ECx <- function(model, x = 50, type = c('from_top', 'from_top_bot', 'absolute'))
   #beta <- coef(model)[1:2]
   ECx <- (eta - beta[1]) / beta[2]
   pd <- -cbind(1, ECx) / beta[2]
-  ff <- as.matrix(vcov(model)[1:2, 1:2])
+  #ff <- as.matrix(vcov(model)[1:2, 1:2])
   se <- sqrt(((pd %*% ff) * pd) %*% c(1, 1))
   upper <- (ECx + se * 1.96)
   lower <- (ECx - se * 1.96)
