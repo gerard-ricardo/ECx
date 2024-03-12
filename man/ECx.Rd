@@ -26,12 +26,10 @@ of the response curve.
 \examples{
 set.seed(123)
 raw_x <- sort(rep(seq(from = 0.1, to = 100, by = 10), 4))
-suc1 <- 100 - rbinom(n = length(raw_x), size = 100, prob = raw_x / 100)
-tot1 <- rep(100, length(raw_x))
-data1 <- data.frame(raw_x, suc1, tot1)
-data1$obs <- factor(formatC(1:nrow(data1), flag = "0", width = 2)) # unique tank ID for later on
-plot(data1$suc1 / data1$tot1 ~ data1$raw_x)
-md3 <- glmer(cbind(suc1, (tot1 - suc1)) ~ raw_x + (1 | obs), family = binomial, data = data1)
-ECx(model = md3, x = 50, type = "from_top")
+suc <- 100 - rbinom(n = length(raw_x), size = 100, prob = raw_x / 100)
+tot <- rep(100, length(raw_x))
+data1 <- data.frame(raw_x, suc, tot)
+md1 <- glm(cbind(suc,(tot - suc)) ~ raw_x, family = binomial, data = data1)
+ECx(model = md1, x = 50, type = "from_top")
 
 }

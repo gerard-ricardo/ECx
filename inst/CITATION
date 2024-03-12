@@ -1,0 +1,8 @@
+bibentry(
+  bibtype = "Manual",
+  title = "ECx: Calculate Effective Concentration (ECx) values",
+  author = person("Gerard", "Ricardo", email = "g.ricardo@uq.edu.au", role = c("aut", "cre")),
+  year = "2024",
+  note = "R package version 0.0.1",
+  url = "https://github.com/gerard-ricardo/ECx"
+)
