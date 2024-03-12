@@ -11,7 +11,9 @@ ECx(model, x = 50, type = c("from_top", "from_top_bot", "absolute"))
 
 \item{x}{The percentage effect to calculate the ECx at (default is 50).}
 
-\item{type}{The type of ECx calculation: 'from_top' (default), or 'from_top_bot'.}
+\item{type}{The type of ECx calculation: 'from_top' (default), or 'from_top_bot' or 'absolute'. 'from_top' calculates the ECx from
+the maximum of the model prediction to zero, 'from_top_bot' between the range of the maximum and minimum of the model prediction, and 'absolute'
+is used to directly calculate the ECx at an absolute value.Which is most appropriate depends on the specific research question}
 }
 \value{
 A data frame with ECx, lower, and upper confidence limits.
@@ -24,7 +26,7 @@ of the response curve.
 \examples{
 set.seed(123)
 raw_x <- sort(rep(seq(from = 0.1, to = 100, by = 10), 4))
-suc <- rbinom(n = length(raw_x), size = 100, prob = raw_x/100)
+suc <- 100 - rbinom(n = length(raw_x), size = 100, prob = raw_x / 100)
 tot <- rep(100, length(raw_x))
 data1 <- data.frame(raw_x, suc, tot)
 md1 <- glm(cbind(suc, (tot - suc)) ~ raw_x, family = binomial, data = data1)
