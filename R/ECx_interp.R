@@ -25,14 +25,14 @@ ecx.interp <- function(ecx, x, pred, lower, upper) {
   nearest_idx <- which.min(abs(pred - inhibx))
   nearest_idx_lower <- which.min(abs(lower - inhibx))
   nearest_idx_upper <- which.min(abs(upper - inhibx))
-  nearest_value_p <- pred[nearest_idx]
-  nearest_value_l <- lower[nearest_idx]
-  nearest_value_u <- upper[nearest_idx]
-  percent_diff <- abs(nearest_value - inhibx) / inhibx * 100
-  # Check if the difference is more than 1%
-  if(percent_diff > 1) {
-    warning("The selected index's value is not within 1% difference of the inhibx value.")
-  }
+  # nearest_value_p <- pred[nearest_idx]
+  # nearest_value_l <- lower[nearest_idx]
+  # nearest_value_u <- upper[nearest_idx]
+  # percent_diff <- abs(nearest_value - inhibx) / inhibx * 100
+  # # Check if the difference is more than 1%
+  # if(percent_diff > 1) {
+  #   warning("The selected index's value is not within 1% difference of the inhibx value.")
+  # }
   df2 <- data.frame(
     ecx = x[nearest_idx],
     lower = x[nearest_idx_lower],
