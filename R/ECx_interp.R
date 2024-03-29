@@ -10,6 +10,7 @@
 # predictions <- predict(md1, newdata = new_data, type = "response", se.fit = T)
 # my_pred <- data.frame(x = new_data$raw_x, pred = predictions$fit, lower = predictions$fit - 1.96 * predictions$se.fit,
 #                              upper = predictions$fit + 1.96 * predictions$se.fit)
+#
 
 ecx_interp <- function(ecx, x, pred, lower, upper) {
   inhibx <- max(pred) - (max(pred) * ecx)
@@ -47,4 +48,5 @@ ecx_interp <- function(ecx, x, pred, lower, upper) {
   }
   return(df2)
 }
+
 #ecx_interp(ecx = 0.1,  x = my_pred$x, pred = my_pred$pred, lower = my_pred$lower, upper = my_pred$upper)
