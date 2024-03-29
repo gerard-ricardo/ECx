@@ -11,7 +11,7 @@
 # my_pred <- data.frame(x = new_data$raw_x, pred = predictions$fit, lower = predictions$fit - 1.96 * predictions$se.fit,
 #                              upper = predictions$fit + 1.96 * predictions$se.fit)
 
-ecx.interp <- function(ecx, x, pred, lower, upper) {
+ecx_interp <- function(ecx, x, pred, lower, upper) {
   inhibx <- max(pred) - (max(pred) * ecx)
   if(inhibx > max(pred) | inhibx < min(pred)) {
     stop("The ECx value is outside the range of predictions.")
@@ -47,4 +47,4 @@ ecx.interp <- function(ecx, x, pred, lower, upper) {
   }
   return(df2)
 }
-#ecx.interp(ecx = 0.1,  x = my_pred$x, pred = my_pred$pred, lower = my_pred$lower, upper = my_pred$upper)
+#ecx_interp(ecx = 0.1,  x = my_pred$x, pred = my_pred$pred, lower = my_pred$lower, upper = my_pred$upper)
