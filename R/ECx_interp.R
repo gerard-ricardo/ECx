@@ -1,16 +1,30 @@
-
-
-# set.seed(123)
-# raw_x <- sort(rep(seq(from = 0.1, to = 100, by = 10), 4))
-# suc <- 100 - rbinom(n = length(raw_x), size = 100, prob = raw_x / 100)
-# tot <- rep(100, length(raw_x))
-# data1 <- data.frame(raw_x, suc, tot)
-# md1 <- glm(cbind(suc,(tot - suc)) ~ raw_x, family = binomial, data = data1)
-# new_data <- data.frame(raw_x = seq(min(data1$raw_x), max(data1$raw_x), length.out = 100))
-# predictions <- predict(md1, newdata = new_data, type = "response", se.fit = T)
-# my_pred <- data.frame(x = new_data$raw_x, pred = predictions$fit, lower = predictions$fit - 1.96 * predictions$se.fit,
-#                              upper = predictions$fit + 1.96 * predictions$se.fit)
-#
+#' Estimate ECx Value and Its Confidence Intervals
+#'
+#' This function estimates the Effective Concentration (ECx) value from model predictions,
+#' along with its lower and upper confidence intervals, and checks if these values are
+#' within the range of the predictions.
+#'
+#' @param ecx The effect size as a proportion for which the ECx value is calculated.
+#' @param x A vector of the independent variable values.
+#' @param pred A vector of predicted values from the model.
+#' @param lower A vector of the lower bounds of the confidence intervals of the predictions.
+#' @param upper A vector of the upper bounds of the confidence intervals of the predictions.
+#' @return A dataframe with the estimated ECx value, its lower and upper confidence intervals,
+#'         and the calculated inhibx value.
+#' @examples
+#' set.seed(123)
+#' raw_x <- sort(rep(seq(from = 0.1, to = 100, by = 10), 4))
+#' suc <- 100 - rbinom(n = length(raw_x), size = 100, prob = raw_x / 100)
+#' tot <- rep(100, length(raw_x))
+#' data1 <- data.frame(raw_x, suc, tot)
+#' md1 <- glm(cbind(suc,(tot - suc)) ~ raw_x, family = binomial, data = data1)
+#' new_data <- data.frame(raw_x = seq(min(data1$raw_x), max(data1$raw_x), length.out = 100))
+#' predictions <- predict(md1, newdata = new_data, type = "response", se.fit = TRUE)
+#' my_pred <- data.frame(x = new_data$raw_x, pred = predictions$fit, lower = predictions$fit - 1.96 * predictions$se.fit,
+#'                              upper = predictions$fit + 1.96 * predictions$se.fit)
+#' ecx_interp(ecx = 0.1, x = my_pred$x, pred = my_pred$pred, lower = my_pred$lower, upper = my_pred$upper)
+#'
+#' @export
 
 ecx_interp <- function(ecx, x, pred, lower, upper) {
   inhibx <- max(pred) - (max(pred) * ecx)
