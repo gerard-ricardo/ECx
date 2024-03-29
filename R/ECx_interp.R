@@ -41,7 +41,7 @@ ecx_interp <- function(ecx, x, pred, lower, upper) {
     inhibx = inhibx
   )
   if(inhibx > max(lower) | inhibx < min(lower)) {
-    df2$upper = NA
+    df2$lower = NA
   }
   if(inhibx > max(upper) | inhibx < min(upper)) {
     df2$upper = NA
